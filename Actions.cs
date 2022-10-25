@@ -23,11 +23,11 @@ namespace Game
         public static void Heal(Pokemon pokemon)
         {
             if (pokemon.HP >= pokemon.totalHP) Console.WriteLine($"t déjà au max gros bouffon");
-            else
-            {
-                pokemon.HP += 0.1 * pokemon.totalHP;
-                if (pokemon.HP >= pokemon.totalHP) pokemon.HP = pokemon.totalHP;
-            }
+            // else
+            // {
+                // if (pokemon.HP >= pokemon.totalHP) pokemon.HP = pokemon.totalHP;
+            else pokemon.HP += 0.1 * pokemon.totalHP;
+            // }
         }
     }
 }
