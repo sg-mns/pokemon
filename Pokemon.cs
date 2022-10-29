@@ -20,5 +20,14 @@ namespace Game
             this.defense = defense;
             this.HP = totalHP;
         }
+    }    
+    public class Jouable : Pokemon
+    {
+        public int xp {get; set;}
+
+        public Jouable(int xp)
+        {
+            this.xp = 0;
+        }
     }
 }
