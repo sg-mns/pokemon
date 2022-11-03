@@ -11,22 +11,22 @@ namespace Game
             // object[] pokemons = new object[] { "Dracaufeau", 100, 100, 100, 100  };
             // object[,] pokemons = new object[,] { { "Dracaufeau", 100, 99, 98, 97 }, { "Pikacringe", 96, 95, 94, 93 }  };
             // List<Pokemon> pokemons = new List<Pokemon> { { "Dracaufeau", 100, 99, 98, 97 }, { "Pikacringe", 96, 95, 94, 93 }  };
-            Pokemon test = new Pokemon("Salamalaise", 51, 50, 12, 20);
-            Pokemon isse = new Pokemon("Pikacringe", 100, 50, 12, 20);
-            Pokemon ahie = new Pokemon("hé mais il est cheaté lui", 201, 250, 200, 200);
-            List<Pokemon> starterPack = new List<Pokemon> { test, isse, ahie };
+            Playable test = new Playable("Salamalaise", 51, 50, 12, 20);
+            Playable isse = new Playable("Pikacringe", 100, 50, 12, 20);
+            Playable ahie = new Playable("hé mais il est cheaté lui", 201, 250, 200, 200);
+            List<Playable> starterPack = new List<Playable> { test, isse, ahie };
 
-            Pokemon grosseMerde1 = new Pokemon("éclaté", 10, 5, 5, 2);
-            Pokemon grosseMerde2 = new Pokemon("pourrave", 10, 5, 5, 2);
-            Pokemon grosseMerde3 = new Pokemon("éclatax", 10, 5, 5, 2);
-            Pokemon grosseMerde4 = new Pokemon("carrément nul", 2, 0, 1, 1);
-            Pokemon grosseMerde5 = new Pokemon("tout pourri", 10, 5, 5, 2);
-            List<Pokemon> faune = new List<Pokemon> { grosseMerde1, grosseMerde2, grosseMerde3, grosseMerde4, grosseMerde5 };
-            List<Pokemon> pokemons = new List<Pokemon> { test, isse };
-            starterPack.Remove(grosseMerde5);
-            
+            NPC grosseMerde1 = new NPC("éclaté", 10, 5, 5, 2);
+            NPC grosseMerde2 = new NPC("pourrave", 10, 5, 5, 2);
+            NPC grosseMerde3 = new NPC("éclatax", 10, 5, 5, 2);
+            NPC grosseMerde4 = new NPC("carrément nul", 2, 0, 1, 1);
+            NPC grosseMerde5 = new NPC("tout pourri", 10, 5, 5, 2);
+            List<NPC> faune = new List<NPC> { grosseMerde1, grosseMerde2, grosseMerde3, grosseMerde4, grosseMerde5 };
+            // List<Pokemon> pokemons = new List<Pokemon> { test, isse };
+            // starterPack.Remove(grosseMerde5);
+            // test(grosseMerde1);
             Console.WriteLine($"t'as le choix entre :\n{starterPack[0].name} (1)\n{starterPack[1].name} (2)\n{starterPack[2].name} (3)\n--------------------------------------------------------");
-            
+            int potions = 5;
             int ptDR = 0;
             foreach (var item in starterPack)
             {
@@ -34,7 +34,7 @@ namespace Game
                 Console.WriteLine($"attrapez-le avec {++ptDR}\n--------------------------------------------------------");
                 
             }
-            List<Pokemon> deck = new List<Pokemon> {  };
+            List<Playable> deck = new List<Playable> {  };
             // Console.WriteLine(operation switch
             // {            
             //     "1" => Actions.Attack(pokemons[0], pokemons[1]),
@@ -42,27 +42,76 @@ namespace Game
             //     _ => "Error"
             // });
             var operationN = int.Parse(Console.ReadLine());
-            Pokemon choice = starterPack[operationN-1];
+            Playable choice = starterPack[operationN-1];
             Console.WriteLine($"you chose {choice.name}");
             // int  = 3;
-
             while (choice.HP > 0)
             {
-                Console.WriteLine($"tu peux: te fight avec 1, voir tes stats avec 2, te heal avec 3");
-                string operation = Console.ReadLine();
-                switch (operation)
+                Console.WriteLine($"\nMENU | tu peux: fight un random avec 1, voir tes stats avec 2, te heal entièrement avec 3, quitter ce jeu merdique avec n'importe quelle autre touche");
+                ConsoleKeyInfo operation = Console.ReadKey();
+                switch (operation.Key)
                 {
-                    case "1":
+                    case ConsoleKey.D1:
                         // Console.WriteLine(Actions.Attack(pokemons[0], starterPack[2]));
-                        Actions.Attack(choice,starterPack[0]);
-                        Actions.Attack(starterPack[0],choice);
-                        Console.WriteLine(choice.HP);
+                        Random r = new Random();
+                        // Console.WriteLine(string.Join(", ", faune.Select(i => i.name.ToString()).ToArray()));
+                        int fauneIndexRnd = r.Next(faune.Count());
+                        NPC radis = faune.ElementAt(fauneIndexRnd);
+                        Console.WriteLine($"\nt'affrontes {radis.name}");
+                        while (true)
+                        {
+                            Console.WriteLine($"\ntu peux: attaquer {radis.name} avec 1, voir tes stats avec 2, te heal avec 3, tenter de te barre avec 4");
+                            ConsoleKeyInfo inGameOperation = Console.ReadKey();
+                            bool fuite = false;
+                            // bool ingame = true;
+                            switch (inGameOperation.Key)
+                            {
+                                case ConsoleKey.D1:
+                                    radis.HP -= 8;
+                                    if (radis.HP>0) Console.WriteLine($"HP de {radis.name}: {radis.HP}/{radis.totalHP}");
+                                    
+                                    break;
+                                case ConsoleKey.D2:
+                                    Actions.Stats(choice);
+                                    break;
+                                case ConsoleKey.D3:
+                                    Actions.Heal(choice, potions, true);
+                                    break;
+                                case ConsoleKey.D4:
+                                    fuite = true;
+                                    Console.WriteLine($"\nmalaise la fuite le lâche");
+                                    break;
+                                default:
+                                    break;
+                            }
+                            if (radis.HP <= 0 || fuite)
+                            {
+                                // ingame = false;
+                                Console.WriteLine($"bravo t'as battu {radis.name}");
+                                choice.xp += 14;
+                                break;
+                            }
+                            else Actions.Attack(radis, choice);
+                            Console.WriteLine($"{radis.name} vous a infligé {choice.totalHP - choice.HP} points de dégâts!");
+                        }
+                        // NPC radis = faune.OrderBy(x => r.NextDouble()).Take(1);
+                        // while (choice.HP > 0 && faune[0].HP > 0)
+                        // {
+                            // if (list[0].speed >= list[1].speed)
+                            // {
+
+                            // }
+                            // else Actions.Attack(radis,choice);
+                        // }
+                        // Actions.Attack(faune[0],choice);
+                        Console.WriteLine(Convert.ToInt32(choice.HP));
                         break;
-                    case "2":
+                    case ConsoleKey.D2:
                         Actions.Stats(choice);
                         break;
-                    case "3":
-                        Actions.Heal(choice, 3);
+                    case ConsoleKey.D3:
+                        Actions.Heal(choice, potions, false);
+                        // Actions.Heal(choice, 3);
                         break;
                     default:
                         return;

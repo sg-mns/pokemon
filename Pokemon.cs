@@ -4,6 +4,7 @@ namespace Game
 {
     public class Pokemon
     {
+        // public Pokemon() {}
         public string name { get; set; }
         public int totalHP { get; set; }
         public double HP { get; set; }
@@ -21,13 +22,21 @@ namespace Game
             this.HP = totalHP;
         }
     }    
-    public class Jouable : Pokemon
+    public class Playable : Pokemon
     {
         public int xp {get; set;}
 
-        public Jouable(int xp)
+        public Playable(string name, int totalHP, int speed, int attack, int defense) : base(name, totalHP, speed, attack, defense)
         {
             this.xp = 0;
         }
+    }
+    public class NPC : Pokemon
+    {
+        public NPC(string name, int totalHP, int speed, int attack, int defense) : base(name, totalHP, speed, attack, defense)
+        {
+        }
+        // public static void  test => Console.WriteLine(this.HP);
+        
     }
 }
