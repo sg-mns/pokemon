@@ -70,7 +70,7 @@ namespace Game
 
         public static void Heal(Pokemon pokemon, int potions, bool ingame)
         {
-            if (potions < 1)
+            if (potions > 1)
             {
                 if (pokemon.HP >= pokemon.totalHP)
                 {
@@ -91,7 +91,7 @@ namespace Game
                     pokemon.HP = pokemon.totalHP;
                 }
                 Console.WriteLine($"{potions}");
-                --potions;
+                potions -= 1;
             }
             else Console.WriteLine($"pas de potions :)");
             
@@ -101,9 +101,10 @@ namespace Game
             var toast = Random.Shared.Next(1, 10);
             if (toast >= 8)
             {
-                potions++;
+                potions += 1;
                 Console.WriteLine($"you found a potion!");
             }
+            Console.WriteLine(potions);
         }
         // public static void Announcer()
         // {

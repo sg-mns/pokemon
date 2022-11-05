@@ -109,7 +109,7 @@ foreach (var item in logo)
                             {
                                 case ConsoleKey.D1:
                                     Actions.Attack(choice, radis);// radis.HP -= 8; 
-                                    if (radis.HP>0) Console.WriteLine($"HP de {radis.name}: {radis.HP}/{radis.totalHP}");
+                                    if (radis.HP>0) Console.WriteLine($"\nHP de {radis.name}: {radis.HP}/{radis.totalHP}");
                                     break;
                                 case ConsoleKey.D2:
                                     Actions.Stats(choice);
@@ -130,7 +130,7 @@ foreach (var item in logo)
                                     {
                                         fuite = true;
                                         Console.WriteLine($"\nmalaise la fuite le lâche");
-                                    } else Console.WriteLine($"PTDR T A CHIER");
+                                    } else Console.WriteLine($"\nyour escaping attempt failed. :)");
                                     
                                     break;
                                 default:
