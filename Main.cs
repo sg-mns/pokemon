@@ -8,6 +8,26 @@ namespace Game
     {
         static void Main()
         {
+            List<string> logo = new List<string> {"                                  ,'\\", 
+"    _.----.        ____         ,'  _\\   ___    ___     ____", 
+"_,-'       `.     |    |  /`.   \\,-'    |   \\  /   |   |    \\  |`.", 
+"\\      __    \\    '-.  | /   `.  ___    |    \\/    |   '-.   \\ |  |", 
+" \\.    \\ \\   |  __  |  |/    ,','_  `.  |          | __  |    \\|  |", 
+"   \\    \\/   /,' _`.|      ,' / / / /   |          ,' _`.|     |  |", 
+"    \\     ,-'/  /   \\    ,'   | \\/ / ,`.|         /  /   \\  |     |", 
+"     \\    \\ |   \\_/  |   `-.  \\    `'  /|  |    ||   \\_/  | |\\    |", 
+"      \\    \\ \\      /       `-.`.___,-' |  |\\  /| \\      /  | |   |", 
+"       \\    \\ `.__,'|  |`-._    `|      |__| \\/ |  `.__,'|  | |   |",  
+"        \\_.-'       |__|    `-._ |              '-.|     '-.| |   |", 
+"                                `'                            '-._|"};
+foreach (var item in logo)
+{
+    Console.WriteLine(item);
+    
+}
+            
+            
+            
             // object[] pokemons = new object[] { "Dracaufeau", 100, 100, 100, 100  };
             // object[,] pokemons = new object[,] { { "Dracaufeau", 100, 99, 98, 97 }, { "Pikacringe", 96, 95, 94, 93 }  };
             // List<Pokemon> pokemons = new List<Pokemon> { { "Dracaufeau", 100, 99, 98, 97 }, { "Pikacringe", 96, 95, 94, 93 }  };
@@ -25,13 +45,14 @@ namespace Game
             // List<Pokemon> pokemons = new List<Pokemon> { test, isse };
             // starterPack.Remove(grosseMerde5);
             // test(grosseMerde1);
-            Console.WriteLine($"t'as le choix entre :\n{starterPack[0].name} (1)\n{starterPack[1].name} (2)\n{starterPack[2].name} (3)\n--------------------------------------------------------");
-            int potions = 5;
+            // Console.WriteLine($"t'as le choix entre :\n{starterPack[0].name} (1)\n{starterPack[1].name} (2)\n{starterPack[2].name} (3)\n--------------------------------------------------------");
+            Console.WriteLine($"welcome to a pathetic ripoff of pokémon!\n\n--------------------------------------------------------");
+            int potions = 10;
             int ptDR = 0;
             foreach (var item in starterPack)
             {
                 Actions.Stats(item);
-                Console.WriteLine($"attrapez-le avec {++ptDR}\n--------------------------------------------------------");
+                Console.WriteLine($"pick him with {++ptDR}\n\n--------------------------------------------------------");
                 
             }
             List<Playable> deck = new List<Playable> {  };
@@ -41,59 +62,94 @@ namespace Game
             //     "2" => Actions.Stats(pokemons[0]),
             //     _ => "Error"
             // });
-            var operationN = int.Parse(Console.ReadLine());
+            int operationN;
+            while (true)
+            {
+                operationN = int.Parse(Console.ReadKey().KeyChar.ToString());
+                try
+                {
+                    test = starterPack[operationN-1];
+                    break;
+                }
+                catch (System.ArgumentOutOfRangeException)
+                {
+                    Console.WriteLine($"\nthis pokémon does not exist!");
+                }
+            }
             Playable choice = starterPack[operationN-1];
-            Console.WriteLine($"you chose {choice.name}");
+            Console.WriteLine($"\nyou chose {choice.name}");
             // int  = 3;
             while (choice.HP > 0)
             {
-                Console.WriteLine($"\nMENU | tu peux: fight un random avec 1, voir tes stats avec 2, te heal entièrement avec 3, quitter ce jeu merdique avec n'importe quelle autre touche");
+                Console.WriteLine($"\nMain Menu | 1 - fight a random pokemon\nMain Menu | 2 - check your pokémon's stats\nMain Menu | 3 - heal entirely\nMain Menu | leave this trashy game with any other key");
                 ConsoleKeyInfo operation = Console.ReadKey();
                 switch (operation.Key)
                 {
                     case ConsoleKey.D1:
                         // Console.WriteLine(Actions.Attack(pokemons[0], starterPack[2]));
-                        Random r = new Random();
+                        // Random r = new Random();
+                        // int fauneIndexRnd = Random.Shared.Next(faune.Count());
                         // Console.WriteLine(string.Join(", ", faune.Select(i => i.name.ToString()).ToArray()));
-                        int fauneIndexRnd = r.Next(faune.Count());
-                        NPC radis = faune.ElementAt(fauneIndexRnd);
+                        // int fauneIndexRnd = r.Next(faune.Count());
+                        // NPC radis = faune.ElementAt(fauneIndexRnd);
+                        NPC radis = NPC.Generate();
                         Console.WriteLine($"\nt'affrontes {radis.name}");
-                        while (true)
+                        if (radis.speed >= choice.speed)
                         {
-                            Console.WriteLine($"\ntu peux: attaquer {radis.name} avec 1, voir tes stats avec 2, te heal avec 3, tenter de te barre avec 4");
+                            Actions.Attack(radis, choice);
+                            Console.WriteLine($"\nVous êtes trop lent ! {radis.name} vous a infligé {choice.totalHP - choice.HP} points de dégâts!");
+                        }
+                        while (true && choice.HP > 0)
+                        {
+                            Console.WriteLine($"\nIn-game | 1 - attack {radis.name}\nIn-game | 2 - check your stats\nIn-game | 3 - use a potion\nIn-game | 4 - try to get the hell out of here\n");
                             ConsoleKeyInfo inGameOperation = Console.ReadKey();
                             bool fuite = false;
                             // bool ingame = true;
                             switch (inGameOperation.Key)
                             {
                                 case ConsoleKey.D1:
-                                    radis.HP -= 8;
+                                    Actions.Attack(choice, radis);// radis.HP -= 8; 
                                     if (radis.HP>0) Console.WriteLine($"HP de {radis.name}: {radis.HP}/{radis.totalHP}");
-                                    
                                     break;
                                 case ConsoleKey.D2:
                                     Actions.Stats(choice);
-                                    break;
+                                    continue;
                                 case ConsoleKey.D3:
-                                    Actions.Heal(choice, potions, true);
+                                    if (choice.HP >= choice.totalHP)
+                                    {
+                                        Console.WriteLine($"\nt déjà au max gros bouffon");
+                                        continue;
+                                    }
+                                    else Actions.Heal(choice, potions, true);
                                     break;
                                 case ConsoleKey.D4:
-                                    fuite = true;
-                                    Console.WriteLine($"\nmalaise la fuite le lâche");
+                                    int fuitest = Random.Shared.Next(100);
+                                    Console.WriteLine(fuitest);
+                                    
+                                    if (fuitest>55)
+                                    {
+                                        fuite = true;
+                                        Console.WriteLine($"\nmalaise la fuite le lâche");
+                                    } else Console.WriteLine($"PTDR T A CHIER");
+                                    
                                     break;
                                 default:
                                     break;
                             }
-                            if (radis.HP <= 0 || fuite)
+                            if (radis.HP <= 0)
                             {
                                 // ingame = false;
-                                Console.WriteLine($"bravo t'as battu {radis.name}");
+                                Console.WriteLine($"\ncongrats! you've beaten {radis.name}");
                                 choice.xp += 14;
+                                Playable.xpCheck(choice);
+                                // choice.requiredXp += 15;
                                 break;
                             }
+                            else if (fuite) break;
                             else Actions.Attack(radis, choice);
-                            Console.WriteLine($"{radis.name} vous a infligé {choice.totalHP - choice.HP} points de dégâts!");
+                            // Console.WriteLine($"{radis.name} vous a infligé {choice.totalHP - choice.HP} points de dégâts!");
                         }
+                        // Playable.xpCheck(choice);
                         // NPC radis = faune.OrderBy(x => r.NextDouble()).Take(1);
                         // while (choice.HP > 0 && faune[0].HP > 0)
                         // {
@@ -104,7 +160,7 @@ namespace Game
                             // else Actions.Attack(radis,choice);
                         // }
                         // Actions.Attack(faune[0],choice);
-                        Console.WriteLine(Convert.ToInt32(choice.HP));
+                        // Console.WriteLine(/* Convert.ToInt32(choice.HP) */"ptdr LOL?");
                         break;
                     case ConsoleKey.D2:
                         Actions.Stats(choice);
