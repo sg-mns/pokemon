@@ -96,6 +96,15 @@ namespace Game
             else Console.WriteLine($"pas de potions :)");
             
         }
+        public static void addPotion(int potions)
+        {
+            var toast = Random.Shared.Next(1, 10);
+            if (toast >= 8)
+            {
+                potions++;
+                Console.WriteLine($"you found a potion!");
+            }
+        }
         // public static void Announcer()
         // {
         //     Console.WriteLine($"vous allez combattre");

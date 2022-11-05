@@ -56,14 +56,14 @@ namespace Game
         {
         }
 
-        public static NPC Generate()
+        public static NPC Generate(int level)
         {
             List<string> name = new List<string> { "pee pee poo poo", "éclaté", "pourrave", "éclatax", "carrément nul", "tout pourri" };
             // string prout = "papa";
-            int totalHP = Random.Shared.Next(8, 25);
+            int totalHP = (int)Math.Round(Random.Shared.Next(8, 25) + Random.Shared.Next(8, 25) * 0.1 * level, 0);
             int speed = Random.Shared.Next(40, 60);
-            int attack = Random.Shared.Next(8, 29);
-            int defense = Random.Shared.Next(8, 25);
+            int attack = (int)Math.Round(Random.Shared.Next(8, 29) + Random.Shared.Next(8, 29) * 0.1 * level, 0);
+            int defense = (int)Math.Round(Random.Shared.Next(8, 25) + Random.Shared.Next(8, 25) * 0.1 * level, 0);
             // Console.WriteLine(name.ElementAt(Random.Shared.Next(name.Count())));
             
             return new NPC(name.ElementAt(Random.Shared.Next(name.Count())), totalHP, speed, attack, defense);

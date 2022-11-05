@@ -47,7 +47,7 @@ foreach (var item in logo)
             // test(grosseMerde1);
             // Console.WriteLine($"t'as le choix entre :\n{starterPack[0].name} (1)\n{starterPack[1].name} (2)\n{starterPack[2].name} (3)\n--------------------------------------------------------");
             Console.WriteLine($"welcome to a pathetic ripoff of pokémon!\n\n--------------------------------------------------------");
-            int potions = 10;
+            int potions = 5;
             int ptDR = 0;
             foreach (var item in starterPack)
             {
@@ -92,7 +92,7 @@ foreach (var item in logo)
                         // Console.WriteLine(string.Join(", ", faune.Select(i => i.name.ToString()).ToArray()));
                         // int fauneIndexRnd = r.Next(faune.Count());
                         // NPC radis = faune.ElementAt(fauneIndexRnd);
-                        NPC radis = NPC.Generate();
+                        NPC radis = NPC.Generate(choice.level);
                         Console.WriteLine($"\nt'affrontes {radis.name}");
                         if (radis.speed >= choice.speed)
                         {
@@ -142,6 +142,7 @@ foreach (var item in logo)
                                 Console.WriteLine($"\ncongrats! you've beaten {radis.name}");
                                 choice.xp += 14;
                                 Playable.xpCheck(choice);
+                                Actions.addPotion(potions);
                                 // choice.requiredXp += 15;
                                 break;
                             }
