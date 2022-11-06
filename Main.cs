@@ -28,9 +28,6 @@ foreach (var item in logo)
             
             
             
-            // object[] pokemons = new object[] { "Dracaufeau", 100, 100, 100, 100  };
-            // object[,] pokemons = new object[,] { { "Dracaufeau", 100, 99, 98, 97 }, { "Pikacringe", 96, 95, 94, 93 }  };
-            // List<Pokemon> pokemons = new List<Pokemon> { { "Dracaufeau", 100, 99, 98, 97 }, { "Pikacringe", 96, 95, 94, 93 }  };
             Playable test = new Playable("Salamalaise", 51, 50, 12, 20);
             Playable isse = new Playable("Pikacringe", 100, 50, 12, 20);
             Playable ahie = new Playable("hé mais il est cheaté lui", 201, 250, 200, 200);
@@ -42,10 +39,6 @@ foreach (var item in logo)
             NPC grosseMerde4 = new NPC("carrément nul", 2, 0, 1, 1);
             NPC grosseMerde5 = new NPC("tout pourri", 10, 5, 5, 2);
             List<NPC> faune = new List<NPC> { grosseMerde1, grosseMerde2, grosseMerde3, grosseMerde4, grosseMerde5 };
-            // List<Pokemon> pokemons = new List<Pokemon> { test, isse };
-            // starterPack.Remove(grosseMerde5);
-            // test(grosseMerde1);
-            // Console.WriteLine($"t'as le choix entre :\n{starterPack[0].name} (1)\n{starterPack[1].name} (2)\n{starterPack[2].name} (3)\n--------------------------------------------------------");
             Console.WriteLine($"welcome to a pathetic ripoff of pokémon!\n\n--------------------------------------------------------");
             int potions = 5;
             int ptDR = 0;
@@ -56,12 +49,6 @@ foreach (var item in logo)
                 
             }
             List<Playable> deck = new List<Playable> {  };
-            // Console.WriteLine(operation switch
-            // {            
-            //     "1" => Actions.Attack(pokemons[0], pokemons[1]),
-            //     "2" => Actions.Stats(pokemons[0]),
-            //     _ => "Error"
-            // });
             int operationN;
             while (true)
             {
@@ -78,7 +65,6 @@ foreach (var item in logo)
             }
             Playable choice = starterPack[operationN-1];
             Console.WriteLine($"\nyou've chosen {choice.name}");
-            // int  = 3;
             while (choice.HP > 0)
             {
                 Console.WriteLine($"\nMain Menu | 1 - fight a random pokemon\nMain Menu | 2 - check your pokémon's stats\nMain Menu | 3 - heal entirely\nMain Menu | leave this trashy game with any other key");
@@ -140,6 +126,7 @@ foreach (var item in logo)
                             else if (fuite) break;
                             else Actions.Attack(radis, choice);
                         }
+                        break;
                     case ConsoleKey.D2:
                         Actions.Stats(choice);
                         break;
