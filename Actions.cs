@@ -8,7 +8,7 @@ namespace Game
         {
             if (defender.defense - attacker.attack < 0)
             {
-                defender.HP -= (attacker.attack - defender.defense);
+                defender.HP -= (attacker.attack - defender.defense) * 1.1;
                 if (attacker is NPC) Console.WriteLine($"\n{attacker.name} dealt {attacker.attack - defender.defense} damage points to your pokémon!");
                 else Console.WriteLine($"\nyou dealt {attacker.attack - defender.defense} damage points to {defender.name}!");
             }
@@ -50,9 +50,9 @@ namespace Game
         public static int addPotion(int potions)
         {
             var toast = Random.Shared.Next(1, 10);
-            if (toast >= 9 && potions <= 6)
+            if (toast >= 8 && potions <= 6)
             {
-                Console.WriteLine($"you found a potion!");
+                Console.WriteLine($"\nyou found a potion!");
                 return ++potions;
             }
             else return potions;

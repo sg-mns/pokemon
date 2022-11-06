@@ -66,11 +66,11 @@ namespace Game
                     case ConsoleKey.D1:
                         Console.Clear();
                         NPC npc = NPC.Generate(player.level);
-                        Console.WriteLine($"\n       {player.name}       Vs.       {npc.name}\n{player.HP} HP  {player.attack} ATK  {player.defense} DEF     -   {npc.HP} HP  {npc.attack} ATK  {npc.defense} DEF");
+                        Console.WriteLine($"\n       {player.name}       Vs.       {npc.name}\n{Convert.ToInt32(player.HP)} HP  {player.attack} ATK  {player.defense} DEF     -   {Convert.ToInt32(npc.HP)} HP  {npc.attack} ATK  {npc.defense} DEF");
                         if (npc.speed >= player.speed)
                         {
-                            Actions.Attack(npc, player);
                             Console.WriteLine($"\nyou're too slow! {npc.name} attacked you first!");
+                            Actions.Attack(npc, player);
                         }
                         while (true && player.HP > 0)
                         {
@@ -81,7 +81,7 @@ namespace Game
                             {
                                 case ConsoleKey.D1:
                                     Actions.Attack(player, npc); 
-                                    if (npc.HP>0) Console.WriteLine($"\n{npc.name}'s healthpoints: {npc.HP}/{npc.totalHP}");
+                                    if (npc.HP>0) Console.WriteLine($"\n{npc.name}'s health points: {Convert.ToInt32(npc.HP)}/{npc.totalHP}");
                                     break;
                                 case ConsoleKey.D2:
                                     Console.Clear();
@@ -115,6 +115,7 @@ namespace Game
                             }
                             else if (fuite) break;
                             else Actions.Attack(npc, player);
+                            if (player.HP <= 10) Console.WriteLine($"\ncritically low health points! you should use a potion before it's too late for {player.name}.");
                         }
                         break;
                     case ConsoleKey.D2:
@@ -131,6 +132,7 @@ namespace Game
                         else continue;
                 };
             }
+        Console.Clear();
         Console.WriteLine($"GAME OVER :)");
         }
     }

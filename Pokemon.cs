@@ -40,8 +40,8 @@ namespace Game
                 pokemon.level += 1;
                 pokemon.totalHP += 8;
                 pokemon.HP = pokemon.totalHP;
-                pokemon.attack += 2;
-                pokemon.defense += 2;
+                pokemon.attack += 3;
+                pokemon.defense += 3;
                 Console.WriteLine($"\nlevel up! you've reached level {pokemon.level}\nnew stats: {pokemon.HP} HP\n{pokemon.attack} attack points\n{pokemon.defense} defense points");
                 pokemon.xp = 0 + (pokemon.xp - pokemon.requiredXp);
                 pokemon.requiredXp += 8 * pokemon.level;
