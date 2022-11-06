@@ -9,14 +9,14 @@ namespace Game
             if (defender.defense - attacker.attack < 0)
             {
                 defender.HP -= (attacker.attack - defender.defense);
-                if (attacker is NPC) Console.WriteLine($"\n{attacker.name} vous a infligé {attacker.attack - defender.defense} points de dégâts!");
+                if (attacker is NPC) Console.WriteLine($"\n{attacker.name} dealt {attacker.attack - defender.defense} damage points to your pokémon!");
                 else Console.WriteLine($"\nyou dealt {attacker.attack - defender.defense} damage points to {defender.name}!");
             }
             else
             {
                 var higDefAtk = Random.Shared.Next(1, 6);
                 defender.HP -= higDefAtk;
-                if (attacker is NPC)  Console.WriteLine($"\n{attacker.name} vous a infligé {higDefAtk} points de dégâts!");
+                if (attacker is NPC)  Console.WriteLine($"\n{attacker.name} dealt {higDefAtk} damage points to your pokémon!");
                 else Console.WriteLine($"\nyou dealt {higDefAtk} damage points to {defender.name}!");
             }
         }
@@ -37,14 +37,14 @@ namespace Game
                 }
                 else if (ingame)
                     {
-                        pokemon.HP += 0.3 * pokemon.totalHP;
+                        pokemon.HP += 0.4 * pokemon.totalHP;
                         if (pokemon.HP >= pokemon.totalHP) pokemon.HP = pokemon.totalHP;
                         Console.WriteLine($"\nyou used a potion! {potions} left.");
                         return --potions;
                     }
                 else pokemon.HP = pokemon.totalHP;
             }
-            else Console.WriteLine($"pas de potions :)");
+            else Console.WriteLine($"\nno more potions left. you're on your own now :)");
             return potions;
         }
         public static int addPotion(int potions)
@@ -53,7 +53,7 @@ namespace Game
             if (toast >= 9 && potions <= 6)
             {
                 Console.WriteLine($"you found a potion!");
-                /* potions++; */ return ++potions;
+                return ++potions;
             }
             else return potions;
         }

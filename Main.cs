@@ -6,9 +6,9 @@ namespace Game
 {
     class MainClass
     {
-        // public int potions { get; set; }
         static void Main()
         {
+            Console.Clear();
             List<string> logo = new List<string> { "                                  ,'\\", 
                 "    _.----.        ____         ,'  _\\   ___    ___     ____", 
                 "_,-'       `.     |    |  /`.   \\,-'    |   \\  /   |   |    \\  |`.", 
@@ -27,23 +27,17 @@ namespace Game
             }
             Console.WriteLine($"welcome to a pathetic ripoff of pokémon!\n\n--------------------------------------------------------");
             
-            Playable test = new Playable("Salamalaise", 51, 50, 22, 22);
-            Playable isse = new Playable("Pikacringe", 100, 50, 12, 20);
+            Playable test = new Playable("Salamalaise", 62, 50, 23, 22);
+            Playable isse = new Playable("Pikacringe", 81, 50, 13, 20);
             Playable ahie = new Playable("hé mais il est cheaté lui", 201, 250, 200, 200);
             List<Playable> starterPack = new List<Playable> { test, isse, ahie };
 
-            NPC grosseMerde1 = new NPC("éclaté", 10, 5, 5, 2);
-            NPC grosseMerde2 = new NPC("pourrave", 10, 5, 5, 2);
-            NPC grosseMerde3 = new NPC("éclatax", 10, 5, 5, 2);
-            NPC grosseMerde4 = new NPC("carrément nul", 2, 0, 1, 1);
-            NPC grosseMerde5 = new NPC("tout pourri", 10, 5, 5, 2);
-            List<NPC> faune = new List<NPC> { grosseMerde1, grosseMerde2, grosseMerde3, grosseMerde4, grosseMerde5 };
-            int ptDR = 0;
+            int pokeCount = 0;
             int potions = 5;
             foreach (var item in starterPack)
             {
                 Actions.Stats(item);
-                Console.WriteLine($"pick him with {++ptDR}\n\n--------------------------------------------------------");
+                Console.WriteLine($"pick him with {++pokeCount}\n\n--------------------------------------------------------");
             }
             List<Playable> deck = new List<Playable> {  };
             int operationN;
@@ -60,74 +54,75 @@ namespace Game
                     Console.WriteLine($"\nthis pokémon does not exist!");
                 }
             }
-            Playable choice = starterPack[operationN-1];
-            Console.WriteLine($"\nyou've chosen {choice.name}");
-            while (choice.HP > 0)
+            Console.Clear();
+            Playable player = starterPack[operationN-1];
+            Console.WriteLine($"\nyou've chosen {player.name}");
+            while (player.HP > 0)
             {
-                Console.WriteLine($"\nMain Menu | 1 - fight a random pokemon\nMain Menu | 2 - check your pokémon's stats\nMain Menu | 3 - heal entirely\nMain Menu | leave this trashy game with any other key");
+                Console.WriteLine($"\nMain Menu | [1] - fight a random pokémon\nMain Menu | [2] - check your pokémon's stats\nMain Menu | [3] - heal entirely\nMain Menu | [x] - leave this trashy game with any other key");
                 ConsoleKeyInfo operation = Console.ReadKey();
                 switch (operation.Key)
                 {
                     case ConsoleKey.D1:
-                        NPC radis = NPC.Generate(choice.level);
-                        Console.WriteLine($"\n    {choice.name}    Vs.    {radis.name}\n({choice.HP} HP - {choice.attack} ATK - {choice.defense} DEF) ({radis.HP} HP - {radis.attack} ATK - {radis.defense} DEF)");
-                        // Actions.Announcer(choice, radis);
-                        if (radis.speed >= choice.speed)
+                        Console.Clear();
+                        NPC npc = NPC.Generate(player.level);
+                        Console.WriteLine($"\n       {player.name}       Vs.       {npc.name}\n{player.HP} HP  {player.attack} ATK  {player.defense} DEF     -   {npc.HP} HP  {npc.attack} ATK  {npc.defense} DEF");
+                        if (npc.speed >= player.speed)
                         {
-                            Actions.Attack(radis, choice);
-                            Console.WriteLine($"\nyou're too slow! {radis.name} attacked you first!");
+                            Actions.Attack(npc, player);
+                            Console.WriteLine($"\nyou're too slow! {npc.name} attacked you first!");
                         }
-                        while (true && choice.HP > 0)
+                        while (true && player.HP > 0)
                         {
-                            Console.WriteLine($"\nIn-game | 1 - attack {radis.name}\nIn-game | 2 - check your stats\nIn-game | 3 - use a potion\nIn-game | 4 - try to get the hell out of here\n");
+                            Console.WriteLine($"\nIn-game | [1] - attack {npc.name}\nIn-game | [2] - check your stats\nIn-game | [3] - use a potion\nIn-game | [4] - try to get the hell out of here\n");
                             ConsoleKeyInfo inGameOperation = Console.ReadKey();
                             bool fuite = false;
                             switch (inGameOperation.Key)
                             {
                                 case ConsoleKey.D1:
-                                    Actions.Attack(choice, radis); 
-                                    if (radis.HP>0) Console.WriteLine($"\nHP de {radis.name}: {radis.HP}/{radis.totalHP}");
+                                    Actions.Attack(player, npc); 
+                                    if (npc.HP>0) Console.WriteLine($"\n{npc.name}'s healthpoints: {npc.HP}/{npc.totalHP}");
                                     break;
                                 case ConsoleKey.D2:
-                                    Actions.Stats(choice);
+                                    Console.Clear();
+                                    Actions.Stats(player);
                                     continue;
                                 case ConsoleKey.D3:
-                                    // if (choice.HP >= choice.totalHP)
-                                    // {
-                                    //     Console.WriteLine($"\nt déjà au max gros bouffon");
-                                    //     continue;
-                                    // }
-                                    /* else  */potions = Actions.Heal(choice, potions, true);
+                                    Console.Clear();
+                                    potions = Actions.Heal(player, potions, true);
                                     break;
                                 case ConsoleKey.D4:
                                     int fuitest = Random.Shared.Next(100);
                                     if (fuitest>69)
                                     {
                                         fuite = true;
+                                        Console.Clear();
                                         Console.WriteLine($"\nyou successfully managed to escape the battle, coward!");
                                     } else Console.WriteLine($"\nyour escaping attempt failed. :)");
                                     break;
                                 default:
-                                    Console.WriteLine("\nyou're supposed to pick one of the four choices");
+                                    Console.WriteLine("\nyou're supposed to pick one of the four choices!");
                                     continue;
                             }
-                            if (radis.HP <= 0)
+                            if (npc.HP <= 0)
                             {
-                                Console.WriteLine($"\ncongrats! you've beaten {radis.name}");
-                                choice.xp += 14;
-                                Playable.xpCheck(choice);
+                                Console.Clear();
+                                Console.WriteLine($"\ncongrats! you've beaten {npc.name}");
+                                player.xp += 14;
+                                Playable.xpCheck(player);
                                 Actions.addPotion(potions);
                                 break;
                             }
                             else if (fuite) break;
-                            else Actions.Attack(radis, choice);
+                            else Actions.Attack(npc, player);
                         }
                         break;
                     case ConsoleKey.D2:
-                        Actions.Stats(choice);
+                        Console.Clear();
+                        Actions.Stats(player);
                         break;
                     case ConsoleKey.D3:
-                        potions = Actions.Heal(choice, potions, false);
+                        potions = Actions.Heal(player, potions, false);
                         break;
                     default:
                         Console.WriteLine($"\nyou sure you wanna leave? (y/N)");
@@ -136,7 +131,7 @@ namespace Game
                         else continue;
                 };
             }
-        Console.WriteLine($"GAME OVER T NUL");
+        Console.WriteLine($"GAME OVER :)");
         }
     }
 }
