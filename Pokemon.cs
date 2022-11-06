@@ -44,7 +44,7 @@ namespace Game
                 pokemon.defense += 2;
                 Console.WriteLine($"\nlevel up! you've reached level {pokemon.level}\nnew stats: {pokemon.HP} HP\n{pokemon.attack} attack points\n{pokemon.defense} defense points");
                 Console.WriteLine($"xp: {pokemon.xp}");
-                pokemon.xp = 0/*  + (pokemon.xp - pokemon.requiredXp) */;
+                pokemon.xp = 0 + (pokemon.xp - pokemon.requiredXp);
                 pokemon.requiredXp += 15;
             }
         }
