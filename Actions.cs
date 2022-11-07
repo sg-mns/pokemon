@@ -57,6 +57,16 @@ namespace Game
             }
             else return potions;
         }
+        public static List<Playable> Capture(int captProba, Pokemon pokemon, List<Playable> deck)
+        {
+            Console.WriteLine($"you've captured {pokemon.name}");
+            deck.Add(new Playable(pokemon.name, pokemon.totalHP, pokemon.speed, pokemon.attack, pokemon.defense));
+            return deck;
+        }
+        public static Pokemon pokeSwitch(Pokemon pokemon)
+        {
+            return pokemon;
+        }
         // public static void Announcer(params Pokemon[] list)
         // {
         //     string statsPlayer = "({list[0].totalHP}]HP - {list[0].totalHP} ATK - {list[0].totalHP} DEF)";

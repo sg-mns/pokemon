@@ -57,10 +57,16 @@ namespace Game
             Console.Clear();
             Playable player = starterPack[operationN-1];
             Console.WriteLine($"\nyou've chosen {player.name}");
+            deck.Add(player);
             while (player.HP > 0)
             {
-                Console.WriteLine($"\nMain Menu | [1] - fight a random pokémon\nMain Menu | [2] - check your pokémon's stats\nMain Menu | [3] - heal entirely\nMain Menu | [x] - leave this trashy game with any other key");
+                if (deck.Count >= 2)
+                {
+                    Console.WriteLine($"\nMain Menu | [1] - fight a random pokémon\nMain Menu | [2] - check your pokémon's stats\nMain Menu | [3] - heal entirely\nMain Menu | [4] - Pokéswitch \nMain Menu | [x] - leave this trashy game with any other key");
+                }
+                else Console.WriteLine($"\nMain Menu | [1] - fight a random pokémon\nMain Menu | [2] - check your pokémon's stats\nMain Menu | [3] - heal entirely\nMain Menu | [x] - leave this trashy game with any other key");
                 ConsoleKeyInfo operation = Console.ReadKey();
+                bool capture = false;
                 switch (operation.Key)
                 {
                     case ConsoleKey.D1:
@@ -72,9 +78,13 @@ namespace Game
                             Console.WriteLine($"\nyou're too slow! {npc.name} attacked you first!");
                             Actions.Attack(npc, player);
                         }
-                        while (true && player.HP > 0)
+                        while (true && player.HP > 0 || !capture)
                         {
-                            Console.WriteLine($"\nIn-game | [1] - attack {npc.name}\nIn-game | [2] - check your stats\nIn-game | [3] - use a potion\nIn-game | [4] - try to get the hell out of here\n");
+                            if (npc.HP >= 11)
+                            {
+                                Console.WriteLine($"\nIn-game | [1] - attack {npc.name}\nIn-game | [2] - check your stats\nIn-game | [3] - use a potion\nIn-game | [4] - try to get the hell out of here\n");
+                            }
+                            else Console.WriteLine($"\nIn-game | [1] - attack {npc.name}\nIn-game | [2] - check your stats\nIn-game | [3] - use a potion\nIn-game | [4] - try to get the hell out of here\nIn-game | [5] - try to capture {npc.name}\n");
                             ConsoleKeyInfo inGameOperation = Console.ReadKey();
                             bool fuite = false;
                             switch (inGameOperation.Key)
@@ -93,12 +103,21 @@ namespace Game
                                     break;
                                 case ConsoleKey.D4:
                                     int fuitest = Random.Shared.Next(100);
-                                    if (fuitest>69)
+                                    if (fuitest > 69)
                                     {
                                         fuite = true;
                                         Console.Clear();
                                         Console.WriteLine($"\nyou successfully managed to escape the battle, coward!");
                                     } else Console.WriteLine($"\nyour escaping attempt failed. :)");
+                                    break;
+                                case ConsoleKey.D5 when (npc.HP <= 10):
+                                    int captProba = Random.Shared.Next(1, 10);
+                                    if (captProba >= 5)
+                                    {
+                                        Actions.Capture(captProba, npc, deck);
+                                        capture = true;
+                                    }
+                                    else Console.WriteLine($"you failed to capture {npc.name}!");
                                     break;
                                 default:
                                     Console.WriteLine("\nyou're supposed to pick one of the four choices!");
@@ -124,6 +143,17 @@ namespace Game
                         break;
                     case ConsoleKey.D3:
                         potions = Actions.Heal(player, potions, false);
+                        break;
+                    case ConsoleKey.D4:
+                        Console.Clear();
+                        int i = 1;
+                        foreach (var item in deck)
+                        {
+                            Console.WriteLine($"[{i}] - {item.name} ({item.HP}HP, {item.attack}ATK, {item.defense}DEF)");
+                        }
+                        // player = Actions.pokeSwitch(item);
+                        Console.WriteLine(deck[1]);
+                        
                         break;
                     default:
                         Console.WriteLine($"\nyou sure you wanna leave? (y/N)");
