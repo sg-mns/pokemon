@@ -57,11 +57,31 @@ namespace Game
             }
             else return potions;
         }
-        public static List<Playable> Capture(int captProba, Pokemon pokemon, List<Playable> deck)
+        public static bool Capture(bool capture, Pokemon pokemon, List<Playable> deck)
         {
-            Console.WriteLine($"you've captured {pokemon.name}!");
-            deck.Add(new Playable(pokemon.name, pokemon.totalHP, pokemon.speed, pokemon.attack, pokemon.defense));
-            return deck;
+            int captProba = Random.Shared.Next(1, 100);
+            var probs = pokemon.HP / pokemon.totalHP;
+            if (probs >= 0.8 && captProba >= 95)
+            {
+                capture = true;
+            }
+            else if (probs >= 0.6 && probs <= 0.8 && captProba >= 90)
+            {
+                capture = true;
+            }
+            else if (probs >= 0.4 && probs <= 0.6 && captProba >= 75)
+            {
+                capture = true;
+            }
+            else if (probs >= 0.2 && probs <= 0.4 && captProba >= 65)
+            {
+                capture = true;
+            }
+            else if (probs >= 0.0 && probs <= 0.2 && captProba >= 50)
+            {
+                capture = true;
+            }
+            return capture;
         }
         // public static Pokemon pokeSwitch(Pokemon pokemon)
         // {

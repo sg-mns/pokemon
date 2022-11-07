@@ -85,7 +85,7 @@ namespace Game
                             //     Console.WriteLine($"\nIn-game | [1] - attack {npc.name}\nIn-game | [2] - check your stats\nIn-game | [3] - use a potion\nIn-game | [4] - try to get the hell out of here\n");
                             // }
                             // else Console.WriteLine($"\nIn-game | [1] - attack {npc.name}\nIn-game | [2] - check your stats\nIn-game | [3] - use a potion\nIn-game | [4] - try to get the hell out of here\nIn-game | [5] - try to capture {npc.name}\n");
-                            Console.WriteLine($"\nIn-game | [1] - attack {npc.name}\nIn-game | [2] - check your stats\nIn-game | [3] - use a potion\nIn-game | [4] - try to get the hell out of here\n {(npc.HP < 11 ? "\nIn-game | [5] - try to capture {npc.name}\n" : "")}");
+                            Console.WriteLine($"\nIn-game | [1] - attack {npc.name}\nIn-game | [2] - check your stats\nIn-game | [3] - use a potion\nIn-game | [4] - try to get the hell out of here\nIn-game | [5] - try to capture {npc.name}\n");
                             ConsoleKeyInfo inGameOperation = Console.ReadKey();
                             bool fuite = false;
                             switch (inGameOperation.Key)
@@ -111,15 +111,16 @@ namespace Game
                                         Console.WriteLine($"\nyou successfully managed to escape the battle, coward!");
                                     } else Console.WriteLine($"\nyour escaping attempt failed. :)");
                                     break;
-                                case ConsoleKey.D5 when (npc.HP <= 11):
-                                    int captProba = Random.Shared.Next(1, 10);
-                                    if (captProba >= 5)
+                                case ConsoleKey.D5:
+                                    if (Actions.Capture(capture, npc, deck))
                                     {
-                                        Console.Clear();
-                                        Actions.Capture(captProba, npc, deck);
+                                        deck.Add(new Playable(npc.name, npc.totalHP, npc.speed, npc.attack, npc.defense));
                                         capture = true;
+                                        Console.Clear();
+                                        Console.WriteLine($"\nyou've captured {npc.name}!");
+                                        break;
                                     }
-                                    else Console.WriteLine($"you failed to capture {npc.name}!");
+                                    else Console.WriteLine($"\nfailed to capture {npc.name}!");
                                     break;
                                 default:
                                     Console.WriteLine("\nyou're supposed to pick one of the four choices!");
