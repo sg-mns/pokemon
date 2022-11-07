@@ -78,9 +78,9 @@ namespace Game
                             Console.WriteLine($"\nyou're too slow! {npc.name} attacked you first!");
                             Actions.Attack(npc, player);
                         }
-                        while (true && player.HP > 0 || !capture)
+                        while (true && player.HP > 0/*  && !capture */)
                         {
-                            if (npc.HP >= 11)
+                            if (npc.HP > 11)
                             {
                                 Console.WriteLine($"\nIn-game | [1] - attack {npc.name}\nIn-game | [2] - check your stats\nIn-game | [3] - use a potion\nIn-game | [4] - try to get the hell out of here\n");
                             }
@@ -110,10 +110,11 @@ namespace Game
                                         Console.WriteLine($"\nyou successfully managed to escape the battle, coward!");
                                     } else Console.WriteLine($"\nyour escaping attempt failed. :)");
                                     break;
-                                case ConsoleKey.D5 when (npc.HP <= 10):
+                                case ConsoleKey.D5 when (npc.HP <= 11):
                                     int captProba = Random.Shared.Next(1, 10);
                                     if (captProba >= 5)
                                     {
+                                        Console.Clear();
                                         Actions.Capture(captProba, npc, deck);
                                         capture = true;
                                     }
@@ -132,7 +133,7 @@ namespace Game
                                 Actions.addPotion(potions);
                                 break;
                             }
-                            else if (fuite) break;
+                            else if (fuite || capture) break;
                             else Actions.Attack(npc, player);
                             if (player.HP <= 10) Console.WriteLine($"\ncritically low health points! you should use a potion before it's too late for {player.name}.");
                         }
@@ -149,11 +150,13 @@ namespace Game
                         int i = 1;
                         foreach (var item in deck)
                         {
-                            Console.WriteLine($"[{i}] - {item.name} ({item.HP}HP, {item.attack}ATK, {item.defense}DEF)");
+                            Console.WriteLine($"[{i++}] - {item.name} ({Convert.ToInt32(item.HP)}HP, {item.attack}ATK, {item.defense}DEF)");
                         }
+                        int pokeChoice = Int32.Parse(Console.ReadKey().KeyChar.ToString());
                         // player = Actions.pokeSwitch(item);
-                        Console.WriteLine(deck[1]);
-                        
+                        player = deck[pokeChoice-1];
+                        Console.Clear();
+                        Console.WriteLine($"you choose {player.name}");
                         break;
                     default:
                         Console.WriteLine($"\nyou sure you wanna leave? (y/N)");

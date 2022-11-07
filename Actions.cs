@@ -59,7 +59,7 @@ namespace Game
         }
         public static List<Playable> Capture(int captProba, Pokemon pokemon, List<Playable> deck)
         {
-            Console.WriteLine($"you've captured {pokemon.name}");
+            Console.WriteLine($"you've captured {pokemon.name}!");
             deck.Add(new Playable(pokemon.name, pokemon.totalHP, pokemon.speed, pokemon.attack, pokemon.defense));
             return deck;
         }
