@@ -80,11 +80,12 @@ namespace Game
                         }
                         while (true && player.HP > 0/*  && !capture */)
                         {
-                            if (npc.HP > 11)
-                            {
-                                Console.WriteLine($"\nIn-game | [1] - attack {npc.name}\nIn-game | [2] - check your stats\nIn-game | [3] - use a potion\nIn-game | [4] - try to get the hell out of here\n");
-                            }
-                            else Console.WriteLine($"\nIn-game | [1] - attack {npc.name}\nIn-game | [2] - check your stats\nIn-game | [3] - use a potion\nIn-game | [4] - try to get the hell out of here\nIn-game | [5] - try to capture {npc.name}\n");
+                            // if (npc.HP > 11)
+                            // {
+                            //     Console.WriteLine($"\nIn-game | [1] - attack {npc.name}\nIn-game | [2] - check your stats\nIn-game | [3] - use a potion\nIn-game | [4] - try to get the hell out of here\n");
+                            // }
+                            // else Console.WriteLine($"\nIn-game | [1] - attack {npc.name}\nIn-game | [2] - check your stats\nIn-game | [3] - use a potion\nIn-game | [4] - try to get the hell out of here\nIn-game | [5] - try to capture {npc.name}\n");
+                            Console.WriteLine($"\nIn-game | [1] - attack {npc.name}\nIn-game | [2] - check your stats\nIn-game | [3] - use a potion\nIn-game | [4] - try to get the hell out of here\n {(npc.HP < 11 ? "\nIn-game | [5] - try to capture {npc.name}\n" : "")}");
                             ConsoleKeyInfo inGameOperation = Console.ReadKey();
                             bool fuite = false;
                             switch (inGameOperation.Key)
